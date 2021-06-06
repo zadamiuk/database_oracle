@@ -4,6 +4,7 @@ import oracle.jdbc.pool.OracleDataSource;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.Scanner;
 
 // na podstawie kodow od prowadzacej
 
@@ -20,6 +21,7 @@ public class Main {
             app.showPatients();
             app.showDoctors("Kardiologia");
             app.showOperations(2019);
+            app.showPatientsInRoom(1);
             app.closeConnection();
         }
         catch (SQLException | IOException eSQL) {
@@ -60,11 +62,9 @@ public class Main {
 
         Statement stat = conn.createStatement();
 
-        // wydajemy zapytanie oraz zapisujemy rezultat w obiekcie typu ResultSet
         ResultSet rs = stat.executeQuery("SELECT imie, nazwisko FROM pacjenci");
 
         System.out.println("---------------------------------");
-        // iteracyjnie odczytujemy rezultaty zapytania
         while (rs.next())
             System.out.println(rs.getString(1) + " " + rs.getString(2));
         System.out.println("---------------------------------");
@@ -78,7 +78,6 @@ public class Main {
 
         Statement stat = conn.createStatement();
 
-        // wydajemy zapytanie oraz zapisujemy rezultat w obiekcie typu ResultSet
         ResultSet rs = stat.executeQuery("SELECT l.imie, l.nazwisko "
         								+ "FROM lekarze l "
         								+ "INNER JOIN lekarze_specjalizacje ls USING(id_lekarza) "
@@ -86,7 +85,6 @@ public class Main {
         								+ "WHERE s.nazwa = '" + specjalizacja + "'");
 
         System.out.println("---------------------------------");
-        // iteracyjnie odczytujemy rezultaty zapytania
         while (rs.next())
             System.out.println(rs.getString(1) + " " + rs.getString(2));
         System.out.println("---------------------------------");
@@ -100,17 +98,37 @@ public class Main {
 
         Statement stat = conn.createStatement();
 
-        // wydajemy zapytanie oraz zapisujemy rezultat w obiekcie typu ResultSet
-        ResultSet rs = stat.executeQuery("SELECT hz.data_zabiegu, z.nazwa, p.imie, p.nazwisko "
+        ResultSet rs = stat.executeQuery("SELECT TO_CHAR(hz.data_zabiegu,'YYYY-MM-DD'), z.nazwa, p.imie, p.nazwisko "
         								+ "FROM historia_zabiegow hz "
         								+ "INNER JOIN zabiegi z USING(id_zabiegu) "
         								+ "INNER JOIN pacjenci p USING(id_pacjenta) "
-        								+ "WHERE EXTRACT(YEAR FROM data_zabiegu) = 2019");
+        								+ "WHERE EXTRACT(YEAR FROM data_zabiegu) = " + rok);
 
         System.out.println("---------------------------------");
-        // iteracyjnie odczytujemy rezultaty zapytania
         while (rs.next())
             System.out.println("Data zabiegu: " + rs.getString(1) + "\nNazwa zabiegu: " + rs.getString(2) + "\nImiê i nazwisko pacjenta: " + rs.getString(3) + " " + rs.getString(4) + "\n");
+        System.out.println("---------------------------------");
+
+        rs.close();
+        stat.close();
+    }
+
+    public void showPatientsInRoom(int sala) throws SQLException {
+
+        System.out.println("Lista pacjentow w sali " + sala + ":");
+
+        Statement stat = conn.createStatement();
+
+        ResultSet rs = stat.executeQuery("SELECT p.imie, p.nazwisko, l.imie, l.nazwisko "
+                + "FROM pacjenci p "
+                + "INNER JOIN lekarze l  USING(id_lekarza)"
+                + "INNER JOIN historia_pobytow USING(id_pacjenta) "
+                + "INNER JOIN sale USING(id_sali)"
+                + "WHERE numer_sali = " + sala);
+
+        System.out.println("---------------------------------");
+        while (rs.next())
+            System.out.println("Imie i nazwisko: " + rs.getString(1) + " " + rs.getString(2) + "\nLekarz prowadzacy: " + rs.getString(3) + " " + rs.getString(4) + "\n");
         System.out.println("---------------------------------");
 
         rs.close();
