@@ -101,3 +101,16 @@ GROUP BY id_oddzialu, o.nazwa
 HAVING count(*) > 1
 ORDER BY count(*);
 
+--wyswietlenie listy pacjentow, ktorych lekarz prowadzacy ma nazwisko zaczynajace sie na litere K
+SELECT p.*, ROUND(dni_w_szpitalu(id_pacjenta)) AS dni_w_szpitalu
+FROM pacjenci p
+WHERE id_lekarza IN (SELECT id_lekarza
+                    FROM lekarze
+                    WHERE nazwisko LIKE 'K%');
+
+--wyswietlenie oferowanych zabiegow, ktore jeszcze nigdy nie byly wykonane      
+SELECT * 
+FROM zabiegi
+WHERE id_zabiegu NOT IN (SELECT id_zabiegu 
+                        FROM historia_zabiegow);
+
