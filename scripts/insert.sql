@@ -57,7 +57,7 @@ INSERT INTO studenci VALUES('Magdalena', 'Wasilewska', 107, 110);
 INSERT INTO studenci VALUES('Patrycja', 'Tomaszewska', 108, 118);
 INSERT INTO studenci VALUES('Katarzyna', 'Walczak', 109, 118);
 
-INSERT INTO pacjenci VALUES('Alicja', 'Kowalczyk', 45081205741, 101, null);
+INSERT INTO pacjenci VALUES('Alicja', 'Kowalczyk', 45081205741, 101, 101);
 INSERT INTO pacjenci VALUES('Aleksandra', 'Jaworska', 49032196788, 102, null);
 INSERT INTO pacjenci VALUES('Nikola', 'Przybylska', 85031823445, 103, null);
 INSERT INTO pacjenci VALUES('Dorota', 'Jakubowska', 56051202349, 104, null);
@@ -65,7 +65,7 @@ INSERT INTO pacjenci VALUES('Izabela', 'Kaminska', 61071587741, 105, null);
 INSERT INTO pacjenci VALUES('Eliza', 'Kwiatkowska', 66111238752, 106, null);
 INSERT INTO pacjenci VALUES('Dagmara', 'Mazurek', 54090316782, 107, null);
 INSERT INTO pacjenci VALUES('Hubert', 'Sadowski', 58123079372, 108, null);
-INSERT INTO pacjenci VALUES('Mateusz', 'Adamski', 47040702859, 109, null);
+INSERT INTO pacjenci VALUES('Mateusz', 'Adamski', 47040702859, 109, 101);
 INSERT INTO pacjenci VALUES('Jacek', 'Chmielewski', 52090307559, 110, 109);
 INSERT INTO pacjenci VALUES('Mikolaj', 'Dabrowski', 55010203749, 111, 110);
 INSERT INTO pacjenci VALUES('Kamil', 'Borkowski', 67070378925, 112, 111);
