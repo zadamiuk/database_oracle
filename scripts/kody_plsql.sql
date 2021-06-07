@@ -8,7 +8,7 @@ BEGIN
     SELECT ID_PACJENTA INTO v_stary_pacjent_id FROM SPECJALNA_APARATURA
     WHERE ID_APARATURY = a_id;
     
-    IF v_stary_pacjent_id != p_id THEN
+    IF v_stary_pacjent_id != p_id OR v_stary_pacjent_id IS NULL OR p_id IS NULL THEN
         UPDATE SPECJALNA_APARATURA SET ID_PACJENTA = p_id
         WHERE ID_APARATURY = a_id;
         dbms_output.put_line ('Przekazano aparature '|| a_id || ' pacjentowi '||p_id);
